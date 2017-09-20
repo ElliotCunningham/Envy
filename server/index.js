@@ -3,6 +3,7 @@ import favicon from 'serve-favicon';
 import cors from 'cors';
 
 import indexControlleur from './controlleurs/indexControlleur';
+import SocketApi from './lib/SocketApi';
 
 const app = express();
 
@@ -19,5 +20,7 @@ app.use('/', indexControlleur);
 const server = app.listen(port, () => {
   console.log('server is listenning @ localhost:', server.address().port);
 });
+
+SocketApi._init();
 
 export default server;

@@ -56,7 +56,7 @@
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	eval("'use strict';\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\n\nvar _express = __webpack_require__(3);\n\nvar _express2 = _interopRequireDefault(_express);\n\nvar _serveFavicon = __webpack_require__(4);\n\nvar _serveFavicon2 = _interopRequireDefault(_serveFavicon);\n\nvar _cors = __webpack_require__(5);\n\nvar _cors2 = _interopRequireDefault(_cors);\n\nvar _indexControlleur = __webpack_require__(6);\n\nvar _indexControlleur2 = _interopRequireDefault(_indexControlleur);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nvar app = (0, _express2.default)();\n\napp.options('*', _cors2.default);\napp.use((0, _serveFavicon2.default)('./images/favicon.png'));\n\nvar port = process.env.PORT || 3000;\n\napp.use(_express2.default.static('/public'));\n\napp.use('/', _indexControlleur2.default);\n\nvar server = app.listen(port, function () {\n  console.log('server is listenning @ localhost:', server.address().port);\n});\n\nexports.default = server;\n\n//////////////////\n// WEBPACK FOOTER\n// ./server/index.js\n// module id = 2\n// module chunks = 0\n//# sourceURL=webpack:///./server/index.js?");
+	eval("'use strict';\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\n\nvar _express = __webpack_require__(3);\n\nvar _express2 = _interopRequireDefault(_express);\n\nvar _serveFavicon = __webpack_require__(4);\n\nvar _serveFavicon2 = _interopRequireDefault(_serveFavicon);\n\nvar _cors = __webpack_require__(5);\n\nvar _cors2 = _interopRequireDefault(_cors);\n\nvar _indexControlleur = __webpack_require__(6);\n\nvar _indexControlleur2 = _interopRequireDefault(_indexControlleur);\n\nvar _SocketApi = __webpack_require__(17);\n\nvar _SocketApi2 = _interopRequireDefault(_SocketApi);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nvar app = (0, _express2.default)();\n\napp.options('*', _cors2.default);\napp.use((0, _serveFavicon2.default)('./images/favicon.png'));\n\nvar port = process.env.PORT || 3000;\n\napp.use(_express2.default.static('/public'));\n\napp.use('/', _indexControlleur2.default);\n\nvar server = app.listen(port, function () {\n  console.log('server is listenning @ localhost:', server.address().port);\n});\n\n_SocketApi2.default._init();\n\nexports.default = server;\n\n//////////////////\n// WEBPACK FOOTER\n// ./server/index.js\n// module id = 2\n// module chunks = 0\n//# sourceURL=webpack:///./server/index.js?");
 
 /***/ }),
 /* 3 */
@@ -141,6 +141,24 @@
 /***/ (function(module, exports) {
 
 	eval("\"use strict\";\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\nvar users = [{\n  _id: \"user_2072017.10H\",\n  _rev: \"1-94a9e5a3075470b67b8baccd3fb97637\",\n  userName: \"elliot\",\n  password: \"mdpElliot\",\n  prenom: \"elliot\",\n  nom: \"cunningham\",\n  joueur: true\n}];\n\nexports.default = users;\n\n//////////////////\n// WEBPACK FOOTER\n// ./server/models/users.js\n// module id = 16\n// module chunks = 0\n//# sourceURL=webpack:///./server/models/users.js?");
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	eval("'use strict';\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\n\nvar _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();\n\nvar _socket = __webpack_require__(18);\n\nvar _socket2 = _interopRequireDefault(_socket);\n\nvar _http = __webpack_require__(19);\n\nvar _http2 = _interopRequireDefault(_http);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nvar SocketApi = function () {\n  function SocketApi() {\n    _classCallCheck(this, SocketApi);\n\n    this.listenSocketEvent = function (socket) {\n      socket.on('connected', function (data, send) {\n        console.log('connected ?', data);\n        send(true);\n      });\n    };\n\n    // super('socket');\n    this.init = false;\n    this.socket = false;\n    this.app = false;\n  }\n\n  _createClass(SocketApi, [{\n    key: '_init',\n    value: function _init() {\n      if (!this.init) {\n        this.app = _http2.default.createServer();\n        this.app.listen(8000, function () {\n          console.log('socket is listenning @ 8000');\n        });\n\n        this.socket = _socket2.default.listen(this.app);\n        this.startSocketListenner();\n        this.init = true;\n      }\n    }\n  }, {\n    key: 'startSocketListenner',\n    value: function startSocketListenner() {\n      this.socket.on('connection', this.listenSocketEvent);\n    }\n  }]);\n\n  return SocketApi;\n}();\n\nexports.default = new SocketApi();\n\n//////////////////\n// WEBPACK FOOTER\n// ./server/lib/SocketApi.js\n// module id = 17\n// module chunks = 0\n//# sourceURL=webpack:///./server/lib/SocketApi.js?");
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports) {
+
+	eval("module.exports = require(\"socket.io\");\n\n//////////////////\n// WEBPACK FOOTER\n// external \"socket.io\"\n// module id = 18\n// module chunks = 0\n//# sourceURL=webpack:///external_%22socket.io%22?");
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports) {
+
+	eval("module.exports = require(\"http\");\n\n//////////////////\n// WEBPACK FOOTER\n// external \"http\"\n// module id = 19\n// module chunks = 0\n//# sourceURL=webpack:///external_%22http%22?");
 
 /***/ })
 /******/ ]);

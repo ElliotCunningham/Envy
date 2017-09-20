@@ -77,7 +77,7 @@ class ConfigurationsActionCreators {
 
 
   ConfigurationsBddChange = (change) => {
-    console.log('configurations Bdd has changed', change);
+    console.info('configurations Bdd has changed', change);
   }
 
 }

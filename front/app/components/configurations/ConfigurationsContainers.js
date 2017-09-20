@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
+import ConfigurationToolBar from './ConfigurationToolBar';
 import ConfigurationForm from './ConfigurationForm';
 
 import ConfigurationsActionCreators from '../../logic/flux/action/ConfigurationsActionCreators';
@@ -33,6 +34,7 @@ class ConfigurationsContainers extends Component {
   componentWillMount() {
     ConfigurationStore.addChangeListener(this.storeSubcriber);
     ConfigurationsActionCreators.intConfigurations();
+    this.router = this.props.router;
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -53,19 +55,24 @@ class ConfigurationsContainers extends Component {
       this.setState(_updateState());
   }
 
+  navigateSomewhere = (somewhere) => {
+    this.router.push(somewhere);
+  }
+
   updateIpAdress = (ip) => {
-    console.log('new Ip', ip);
     _updateIpAdress(ip);
   }
 
   updatePortNumber = (port) => {
-    console.log('new port', port);
     _updatePortNumber(port);
   }
 
   render() {
     return(
       <div className="ConfigurationsContainers" style={{ width: "100%", height: "100%" }}>
+        <ConfigurationToolBar
+          navigateSomewhere={this.navigateSomewhere}
+        />
         <ConfigurationForm
           ip={this.state.ip}
           port={this.state.port}

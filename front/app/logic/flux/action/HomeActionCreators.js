@@ -1,6 +1,8 @@
 import ActionTypes from '../constant/HomeConstant';
 import AppDispatcher from '../AppDispatcher';
 
+import SocketApi from '../../api/socket/SocketApi';
+
 
 class ApplicationAction {
   constructor() {
@@ -11,6 +13,26 @@ class ApplicationAction {
       type: ActionTypes.TEST_FLUX,
       data: true
     });
+  }
+
+  conectSocket() {
+    SocketApi.connectSocket()
+      .then((res) => {
+        console.log('socket connected ?', res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  socketMessage(message, data) {
+    SocketApi.sendSocketMessage()
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
 }

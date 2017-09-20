@@ -15,6 +15,14 @@ const _testYourFlux = () => {
   HomeActionCreators.testYourFlux();
 };
 
+const _conectSocket = () => {
+  HomeActionCreators.conectSocket();
+};
+
+const _socketMessage = (message, data) => {
+  HomeActionCreators.socketMessage(message, data);
+};
+
 const _updateState = () => {
   const test = HomeStore.getYourTestFlux();
 
@@ -39,6 +47,7 @@ class Home extends Component {
             HomeStore.addChangeListener(this.storeSubcriber);
 		this.router = this.props.router;
             _testYourFlux();
+            _conectSocket();
             setTimeout(() => { console.log('test your flux response', this.state.test); }, 2000);
 	}
 
